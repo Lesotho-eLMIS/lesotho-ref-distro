@@ -58,7 +58,7 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   notification:
-    image: openlmis/notification:${OL_NOTIFICATION_VERSION}
+    image: elmislesotho/notification:${OL_NOTIFICATION_VERSION}
     env_file: settings.env
     environment:
       JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
@@ -126,6 +126,16 @@ services:
       - 'service-config:/config'
     depends_on: [log, db]
     command: ["/wait-for-postgres.sh", "/run.sh"]
+
+  dhis2-integration:
+    image: openlmismw/dhis2-integration:1.0.5-SNAPSHOT
+    env_file: settings.env
+    environment:
+      JAVA_OPTS: '-Dlogging.config=/config/log/logback.xml -Dflyway.locations=classpath:db/migration'
+      spring_profiles_active: ${spring_profiles_active}
+    volumes:
+      - 'service-config:/config'
+    depends_on: [log]
 
   buq:
     image: openlmis/buq:${OL_BUQ_VERSION}
