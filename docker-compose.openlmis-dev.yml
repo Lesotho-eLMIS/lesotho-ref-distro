@@ -1,6 +1,37 @@
+# version: "3.8"
+
+# services:
+#   web:
+#     image: "${DHIS2_IMAGE:-dhis2/core-dev:local}"
+#     ports:
+#       - "127.0.0.1:8080:8080" # DHIS2
+#       - "127.0.0.1:8081:8081" # Debugger: connect using commandline flag -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081
+#       - "127.0.0.1:9010:9010" # JMX port (for example for VisualVM)
+#     volumes:
+#       - ./logo/mohswlogo.png:mohswlogo.png
+#       - ./docker/dhis.conf:/opt/dhis2/dhis.conf:ro
+#       - ./docker/log4j2.xml:/opt/dhis2/log4j2.xml:ro
+#     environment:
+#       JAVA_OPTS:
+#         "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081 \
+#         -Dlog4j2.configurationFile=/opt/dhis2/log4j2.xml
+#         -Dcom.sun.management.jmxremote \
+#         -Dcom.sun.management.jmxremote.port=9010 \
+#         -Dcom.sun.management.jmxremote.local.only=false \
+#         -Dcom.sun.management.jmxremote.authenticate=false \
+#         -Dcom.sun.management.jmxremote.ssl=false"
+#       POSTGRES_USER: dhis # Replace with your existing DB user
+#       POSTGRES_DB: dhsi # Replace with your existing DB name
+#       POSTGRES_PASSWORD: 0001 # Replace with your existing DB password
+#       POSTGRES_HOST: 192.168.8.147 # Replace with your existing DB host (e.g., IP or hostname)
+#       POSTGRES_PORT: 5432 # Replace with your existing DB port (default is 5432)
+
+#     # depends_on:
+#     # You can remove the db service dependency here if you don't need it
+#     # db:
+#     #   condition: service_healthy
 version: "3.3"
 services:
-
   consul:
     command: -server -bootstrap
     image: gliderlabs/consul-server
@@ -17,11 +48,15 @@ services:
       - "${OL_HTTP_PORT:-80}:80"
     env_file: settings.env
     environment:
+<<<<<<< HEAD
       NGINX_LOG_DIR: '/var/log/nginx/log'
       NGINX_TIMEOUT: '300s'
+=======
+      NGINX_LOG_DIR: "/var/log/nginx/log"
+>>>>>>> 5eb384f (local config)
     volumes:
-      - 'nginx-log:/var/log/nginx/log'
-      - 'consul-template-log:/var/log/consul-template'
+      - "nginx-log:/var/log/nginx/log"
+      - "consul-template-log:/var/log/consul-template"
     depends_on: [consul]
 
   reference-ui:
@@ -33,6 +68,7 @@ services:
     image: elmislesotho/requisition:${OL_REQUISITION_VERSION}
     env_file: settings.env
     environment:
+<<<<<<< HEAD
       #JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
       JAVA_OPTS: >
         -server
@@ -46,15 +82,19 @@ services:
         -XX:+PrintGCDateStamps
         -Xloggc:/var/log/requisition/gc.log
         -Dlogging.config=/config/log/logback.xml
+=======
+      JAVA_OPTS: "-server -Xmx1024m -Dlogging.config=/config/log/logback.xml"
+>>>>>>> 5eb384f (local config)
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   referencedata:
     image: elmislesotho/referencedata:${OL_REFERENCEDATA_VERSION}
     env_file: settings.env
     environment:
+<<<<<<< HEAD
       #JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
       JAVA_OPTS: >
         -server
@@ -68,55 +108,59 @@ services:
         -XX:+PrintGCDateStamps
         -Xloggc:/var/log/referencedata/gc.log
         -Dlogging.config=/config/log/logback.xml
+=======
+      JAVA_OPTS: "-server -Xmx1024m -Dlogging.config=/config/log/logback.xml"
+>>>>>>> 5eb384f (local config)
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   auth:
     image: elmislesotho/auth:${OL_AUTH_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   notification:
     image: elmislesotho/notification:${OL_NOTIFICATION_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   fulfillment:
     image: elmislesotho/fulfillment:${OL_FULFILLMENT_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   cce:
     image: openlmis/cce:${OL_CCE_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   stockmanagement:
     image: elmislesotho/stockmanagement:${OL_STOCKMANAGEMENT_VERSION}
     env_file: settings.env
     environment:
+<<<<<<< HEAD
       #JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
       JAVA_OPTS: >
         -server
@@ -130,11 +174,15 @@ services:
         -XX:+PrintGCDateStamps
         -Xloggc:/var/log/stockmanagement/gc.log
         -Dlogging.config=/config/log/logback.xml
+=======
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
+>>>>>>> 5eb384f (local config)
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
+<<<<<<< HEAD
   # prepacking:
   #   image: elmislesotho/prepacking:${OL_PREPACKING_VERSION}
   #   env_file: settings.env
@@ -154,62 +202,83 @@ services:
   #     - 'service-config:/config'
   #   depends_on: [log, db]
   #   command: ["/wait-for-postgres.sh", "/run.sh"]
+=======
+  prepacking:
+    image: elmislesotho/prepacking:${OL_PREPACKING_VERSION}
+    env_file: settings.env
+    environment:
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
+    volumes:
+      - "service-config:/config"
+    depends_on: [log]
+    command: ["/wait-for-postgres.sh", "/run.sh"]
+
+    # dispensing:
+    #   image: elmislesotho/dispensing:${OL_DISPENSING_VERSION}
+    #   env_file: settings.env
+    #   environment:
+    #     JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
+    #   volumes:
+    #     - "service-config:/config"
+    #   depends_on: [log]
+    #   command: ["/wait-for-postgres.sh", "/run.sh"]
+>>>>>>> 5eb384f (local config)
 
   report:
     image: openlmis/report:${OL_REPORT_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   buq:
     image: openlmis/buq:${OL_BUQ_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx1024m -Dlogging.config=/config/log/logback.xml"
     volumes:
-      - 'service-config:/config'
-    depends_on: [ log, db ]
-    command: [ "/wait-for-postgres.sh", "/run.sh" ]
+      - "service-config:/config"
+    depends_on: [log]
+    command: ["/wait-for-postgres.sh", "/run.sh"]
 
   hapifhir:
     restart: always
     image: openlmis/hapifhir:${OL_HAPIFHIR_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
       spring_profiles_active: ${spring_profiles_active}
     volumes:
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "service-config:/config"
+    depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
-    
+
   diagnostics:
     image: openlmis/diagnostics:${OL_DIAGNOSTICS_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
       spring_profiles_active: ${spring_profiles_active}
     volumes:
-      - 'service-config:/config'
+      - "service-config:/config"
     depends_on: [log]
 
-  db:
-    image: openlmis/postgres:${OL_POSTGRES_VERSION}
-    env_file: settings.env
-    networks:
-      default:
-        aliases:
-          - olmis-db
-    depends_on: [consul]
+  # db:
+  #   image: openlmis/postgres:${OL_POSTGRES_VERSION}
+  #   env_file: settings.env
+  #   networks:
+  #     default:
+  #       aliases:
+  #         - olmis-db
+  #   depends_on: [consul]
 
   log:
     image: openlmis/rsyslog:${OL_RSYSLOG_VERSION}
     volumes:
-      - 'syslog:/var/log'
+      - "syslog:/var/log"
     depends_on:
       - service-configuration
       - consul
@@ -236,11 +305,11 @@ services:
     image: elmislesotho/pointofdelivery:${OL_POINTOFDELIVERY_VERSION}
     env_file: settings.env
     environment:
-      JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
     volumes:
-      - 'pointofdelivery-extensions:/extensions'
-      - 'service-config:/config'
-    depends_on: [log, db]
+      - "pointofdelivery-extensions:/extensions"
+      - "service-config:/config"
+    depends_on: [log]
 
   # example-extensions:
   #   image: openlmis/openlmis-example-extensions:latest
