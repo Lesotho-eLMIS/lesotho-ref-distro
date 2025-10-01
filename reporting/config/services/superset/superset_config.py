@@ -22,7 +22,7 @@ def lookup_password(url):
 #     os.environ['POSTGRES_PASSWORD'])
 
 
-SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{}:{}@10.255.100.97:5433/open_lmis_reporting'.format(
+SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{}:{}@10.1.0.5:5200/open_lmis_reporting'.format(
     os.environ['POSTGRES_USER'],
     os.environ['POSTGRES_PASSWORD'])
 

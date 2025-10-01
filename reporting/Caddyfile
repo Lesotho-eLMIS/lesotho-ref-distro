@@ -1,4 +1,4 @@
-dev.superset.elmis.gov.ls {
+superset.elmis.gov.ls {
   # Let Caddy auto-manage TLS for this hostname
   tls admin@elmis.gov.ls
 
