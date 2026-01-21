@@ -1,4 +1,4 @@
-FROM python:3.8.13
+FROM python:3.9.0
 
 # Superset version
 ARG SUPERSET_VERSION=1.5.2
@@ -7,7 +7,7 @@ ARG SUPERSET_VERSION=1.5.2
 ARG SUPERSET_PATCHUP_VERSION=v0.5.1
 
 # Default Superset files dir
-ARG APP_DIR=/usr/local/lib/python3.8/site-packages/superset
+ARG APP_DIR=/usr/local/lib/python3.9/site-packages/superset
 
 # Configure environment
 ENV GUNICORN_BIND=0.0.0.0:8088 \
@@ -52,26 +52,28 @@ RUN useradd -U -m superset && \
     apt-get clean && \
     rm -r /var/lib/apt/lists/* && \
     pip install --upgrade setuptools pip && \
-    pip install --no-cache-dir \
-        gunicorn==20.1.0 \
-        gevent==22.10.2 \
+    pip install --no-cache-dir -v\
+        pillow==10.2.0 \
+        gunicorn==21.2.0 \
+        gevent==24.2.1 \
         git+${SUPERSET_PATCHUP_REPO} \
         apache-superset==${SUPERSET_VERSION} \
         apache-superset[cors]==${SUPERSET_VERSION} \
         flask-mail==0.9.1 \
         flask-oauth==0.12 \
         flask_oauthlib==0.9.5 && \
-     # Upgrade the packages
-        pip install typing-extensions==4.7.1 --upgrade && \
-        pip install selenium --upgrade && \
+    # Upgrade the packages
+    pip install typing-extensions==4.7.1 --upgrade && \
+    pip install selenium --upgrade && \
+
     # MarkupSafe, fix missing 'soft_unicode' from 'markupsafe'
     # fix cryptography, flask, werkzeug to last known working versions
     pip install -I --no-cache-dir \
-        MarkupSafe==2.0.1 \
-        cryptography==38.0.2 \
-        flask==1.1.4 \
-        werkzeug==1.0.1 \
-        psycopg2-binary==2.9.1
+        MarkupSafe==2.1.1 \
+        cryptography==42.0.7\
+        flask==2.2.5	 \
+        Werkzeug==2.3.7 \
+        psycopg2-binary==2.9.6
 
 # Configure Filesystem
 RUN find ${APP_DIR} \! -type l -print0 | xargs -0 chown superset:superset

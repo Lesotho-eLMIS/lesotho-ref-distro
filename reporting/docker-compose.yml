@@ -203,11 +203,7 @@ services:
     depends_on: [kafka-rest]
 
   superset:
-    build:
-      context: ./superset
-      args:
-        SUPERSET_VERSION: ${OL_SUPERSET_VERSION}
-        SUPERSET_PATCHUP_VERSION: ${OL_SUPERSET_PATCHUP_VERSION}
+    image: elmislesotho/reporting_superset_1:0.0.1 
     ports:
       - "8088:8088"
     volumes:
@@ -219,9 +215,10 @@ services:
       driver: syslog
       options:
         syslog-address: "udp://127.0.0.1:${SYSLOG_UDP_PORT}"
-    depends_on: [db, config-container, nginx]
+    depends_on: [db, nginx]
     env_file: settings.env
 
+    
 volumes:
   syslog:
     external: false
