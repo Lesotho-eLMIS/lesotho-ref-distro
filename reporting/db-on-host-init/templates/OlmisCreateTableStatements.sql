@@ -6,6 +6,9 @@
 -- Last Updated 19 May 2020
 --
 
+--- On error (e.g. Table already exists) continue with the next statement
+\set ON_ERROR_STOP off
+
 --
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: 
 --
@@ -667,8 +670,8 @@ CREATE TABLE public.kafka_stock_card_line_items (
     stockcardid uuid NOT NULL,
     quantity integer NOT NULL,
     reasonid uuid,
-    -- occurreddate date NOT NULL,
-    -- processeddate timestamp without time zone NOT NULL,
+    occurreddate date NOT NULL,
+    processeddate timestamp without time zone NOT NULL,
     destinationfreetext character varying(255),
     documentnumber character varying(255),
     reasonfreetext character varying(255),
@@ -2617,3 +2620,413 @@ LEFT JOIN latest_prices lp ON
 WITH DATA;
 
 ALTER MATERIALIZED VIEW stock_card_summaries_with_prices OWNER TO postgres;
+
+DROP MATERIALIZED VIEW IF EXISTS data_verification;
+CREATE MATERIALIZED VIEW data_verification AS
+
+WITH stock_by_card AS (
+    -- Step 1: Calculate both stock on hand and receipts per stockcard
+    SELECT 
+        stc.id AS stockcardid,
+        fac.name AS facility_name,
+        fac.code AS facility_code,
+        LEFT(fac.code, 4) AS facility_prefix,
+        facty.name AS facility_type,
+        facop.name AS facility_operator,
+        ord.fullproductname AS product_name,
+        ord.netcontent AS pack_size,
+        prog.name AS program,
+        odc.displayname AS category,
+        geoz.name AS geographic_zone,
+        dis.name AS district,
+        SUM(
+            CASE 
+                WHEN COALESCE(stclire.reasontype, 'CREDIT') = 'CREDIT' THEN stcli.quantity
+                WHEN stclire.reasontype = 'DEBIT' THEN -stcli.quantity
+                ELSE 0
+            END
+        ) AS stock_on_hand,
+        SUM(
+            CASE 
+                WHEN stclire.name = 'Receipts' AND no_fac.code  = 'NDSO' THEN stcli.quantity 
+                ELSE 0
+            END
+        ) AS sum_of_receipts,
+        SUM(
+            CASE 
+                WHEN stclire.name = 'Transfer Out' THEN stcli.quantity 
+                ELSE 0
+            END
+        ) AS sum_of_transfer_out,
+        SUM(
+            CASE 
+                WHEN stclire.name = 'Expired' THEN stcli.quantity 
+                ELSE 0
+            END
+        ) AS sum_expired,
+        SUM(
+            CASE 
+                WHEN stclire.name = 'Transfer In' THEN stcli.quantity 
+                ELSE 0
+            END
+        ) AS sum_tranfer_in
+    FROM kafka_stock_card_line_items stcli
+    LEFT JOIN kafka_stock_card_line_item_reasons stclire ON stcli.reasonid = stclire.id
+    LEFT JOIN kafka_stock_cards stc ON stcli.stockcardid = stc.id
+    LEFT JOIN kafka_facilities fac ON stc.facilityid = fac.id
+    LEFT JOIN kafka_facility_types facty ON fac.typeid = facty.id
+    LEFT JOIN kafka_facility_operators facop ON fac.operatedbyid = facop.id
+    LEFT JOIN kafka_orderables ord ON stc.orderableid = ord.id
+    LEFT JOIN kafka_programs prog ON stc.programid = prog.id
+    LEFT JOIN kafka_program_orderables prog_o ON ord.id = prog_o.orderableid
+    LEFT JOIN kafka_orderable_display_categories odc ON odc.id = prog_o.orderabledisplaycategoryid
+    LEFT JOIN kafka_geographic_zones geoz ON geoz.id = fac.geographiczoneid
+    LEFT JOIN kafka_nodes no ON CAST(no.id AS uuid) = stcli.sourceid
+    LEFT JOIN kafka_facilities no_fac ON no_fac.id = CAST(no.referenceid AS uuid)
+    LEFT JOIN kafka_geographic_zones Zone_fac ON zone_fac.id = fac.geographiczoneid
+    LEFT JOIN kafka_geographic_zones dis ON zone_fac.parentid = dis.id
+    GROUP BY 
+        stc.id,
+        fac.name, fac.code, facty.name, facop.name,
+        ord.fullproductname, ord.netcontent,
+        prog.name, odc.displayname, geoz.name,dis.name
+),
+total_by_group AS (
+    -- Step 2: Sum both stock and receipts per (first 4 letters of Facility Code + Product Name)
+    SELECT 
+        facility_prefix,
+        product_name,
+        SUM(stock_on_hand) AS total_stock_on_hand,
+        SUM(sum_of_receipts) AS total_receipts_per_product,
+        SUM(sum_of_transfer_out) AS total_transfer_out,
+        SUM(sum_expired) AS total_expired,
+        SUM(sum_tranfer_in) AS total_transfer_in
+    FROM stock_by_card
+    GROUP BY facility_prefix, product_name
+)
+-- Final result: combine per-stockcard data with group totals
+SELECT DISTINCT ON (sbc.facility_name, sbc.product_name)
+    sbc.district AS "District",
+    sbc.geographic_zone AS "Facility Name",
+    sbc.facility_code AS "Facility Code",
+    sbc.facility_type AS "Facility Type",
+    sbc.facility_operator AS "Facility Operator",
+    sbc.product_name AS "Product Name",
+    sbc.pack_size AS "Pack Size",
+    sbc.program AS "Program",
+    -- sbc.category AS "Categories",
+    -- tbg.total_stock_on_hand AS "Total Stock on Hand",
+    tbg.total_receipts_per_product AS "Receipts",
+    tbg.total_transfer_in AS "Transfer In",
+    tbg.total_transfer_out AS "Transfer Out",
+    tbg.total_expired AS "Expired",
+    tbg.total_stock_on_hand AS "Total Stock on Hand"
+FROM stock_by_card sbc
+JOIN total_by_group tbg
+    ON sbc.facility_prefix = tbg.facility_prefix
+    AND sbc.product_name = tbg.product_name
+WHERE LENGTH(sbc.facility_code) = 5
+ORDER BY sbc.facility_name, sbc.product_name, sbc.stock_on_hand DESC
+
+WITH DATA;
+
+ALTER MATERIALIZED VIEW data_verification OWNER TO postgres;
+
+DROP MATERIALIZED VIEW IF EXISTS dqa;
+CREATE MATERIALIZED VIEW dqa AS
+
+SELECT 
+       fac.name "Facility",
+       dis.name "District",
+       facty.name "Facility Type",
+       facop.name "Ownership",
+       prog.name AS "Program",
+       ord.fullproductname "Product", 
+       lots.lotcode "Batch Number" ,
+       stcli.quantity, -- "Quantity",
+       NULL AS isphysicalinventory,
+       stclir.name AS "Reason", 
+       stclir.reasontype,
+       stcli.occurreddate
+       
+FROM kafka_stock_card_line_items stcli
+LEFT JOIN kafka_stock_card_line_item_reasons stclir ON stcli.reasonid = stclir.id
+LEFT JOIN kafka_stock_cards stc ON stcli.stockcardid = stc.id 
+LEFT JOIN kafka_orderables ord ON stc.orderableid = ord.id  
+LEFT JOIN kafka_lots lots ON stc.lotid = lots.id
+LEFT JOIN kafka_program_orderables po ON ord.id = po.orderableid 
+LEFT JOIN kafka_programs prog ON po.programid = prog.id
+LEFT JOIN kafka_facilities fac ON stc.facilityid = fac.id
+LEFT JOIN kafka_facility_types facty ON fac.typeid = facty.id 
+LEFT JOIN kafka_facility_operators facop ON fac.operatedbyid = facop.id
+LEFT JOIN kafka_geographic_zones zone_fac ON zone_fac.id = fac.geographiczoneid
+LEFT JOIN kafka_geographic_zones dis ON zone_fac.parentid = dis.id  -- dis for district
+WHERE facty.id IN ('0fbe2b5c-bd2b-46af-ba7f-63c14add59c7', --Hospital
+                      '1096849c-84cd-4a94-8a7a-25d9f6e3911b') -- Health Centre
+      AND stclir.name IS NOT NULL
+
+UNION 
+
+SELECT 
+       fac.name "Facility",
+       dis.name "District",
+       facty.name "Facility Type",
+       facop.name "Ownership",
+       prog.name AS "Program",
+       ord.fullproductname "Product", 
+       lots.lotcode "Batch Number" ,
+      -- stcli.quantity AS "Line Item Qauntity", 
+       pili.quantity, --  AS "Quantity",
+       stcli.extradata ->> 'physicalInventoryType' AS isphysicalinventory,
+       stclir.name AS "Reason", 
+       stclir.reasontype,
+       stcli.occurreddate
+       
+FROM kafka_stock_card_line_items stcli
+LEFT JOIN kafka_physical_inventory_line_item_adjustments pili ON pili.stockcardlineitemid::uuid = stcli.id
+LEFT JOIN kafka_stock_card_line_item_reasons stclir ON pili.reasonid::uuid = stclir.id
+LEFT JOIN kafka_stock_cards stc ON stcli.stockcardid = stc.id 
+LEFT JOIN kafka_orderables ord ON stc.orderableid = ord.id  
+LEFT JOIN kafka_lots lots ON stc.lotid = lots.id
+LEFT JOIN kafka_program_orderables po ON ord.id = po.orderableid 
+LEFT JOIN kafka_programs prog ON po.programid = prog.id
+LEFT JOIN kafka_facilities fac ON stc.facilityid = fac.id
+LEFT JOIN kafka_facility_types facty ON fac.typeid = facty.id 
+LEFT JOIN kafka_facility_operators facop ON fac.operatedbyid = facop.id
+LEFT JOIN kafka_geographic_zones zone_fac ON zone_fac.id = fac.geographiczoneid
+LEFT JOIN kafka_geographic_zones dis ON zone_fac.parentid = dis.id  -- dis for district
+WHERE facty.id IN ('0fbe2b5c-bd2b-46af-ba7f-63c14add59c7', --Hospital
+                      '1096849c-84cd-4a94-8a7a-25d9f6e3911b') -- Health Centre
+      AND stcli.extradata ? 'physicalInventoryType'
+
+WITH DATA;
+
+ALTER MATERIALIZED VIEW dqa OWNER TO postgres;
+
+
+
+DROP MATERIALIZED VIEW IF EXISTS redistribution;
+CREATE MATERIALIZED VIEW redistribution AS
+
+SELECT 
+       issufac.name AS "Issuing Facility",
+       issudis.name AS "Issuing District",
+       issufacty.name AS "Issuing Facility Type",
+       issufacop.name AS "Issuing Facility Ownership",
+       prog.name AS "Program",
+       ord.fullproductname "Product", 
+       lots.lotcode "Batch Number" ,
+       stcli.quantity "Quantity",
+      -- stclir.name AS "Reason", 
+       stcli.occurreddate AS "Date Received",
+       fac.name "Receiving Facility",
+       dis.name "District",
+       facty.name "Facility Type",
+       facop.name "Ownership"
+       
+FROM kafka_stock_card_line_items stcli
+LEFT JOIN kafka_stock_card_line_item_reasons stclir ON stcli.reasonid = stclir.id
+LEFT JOIN kafka_stock_cards stc ON stcli.stockcardid = stc.id 
+LEFT JOIN kafka_orderables ord ON stc.orderableid = ord.id  
+LEFT JOIN kafka_lots lots ON stc.lotid = lots.id
+LEFT JOIN kafka_program_orderables po ON ord.id = po.orderableid 
+LEFT JOIN kafka_programs prog ON po.programid = prog.id
+LEFT JOIN kafka_facilities fac ON stc.facilityid = fac.id
+LEFT JOIN kafka_facility_types facty ON fac.typeid = facty.id 
+LEFT JOIN kafka_facility_operators facop ON fac.operatedbyid = facop.id
+LEFT JOIN kafka_geographic_zones zone_fac ON zone_fac.id = fac.geographiczoneid
+LEFT JOIN kafka_geographic_zones dis ON zone_fac.parentid = dis.id  -- dis for district
+LEFT JOIN kafka_nodes no ON stcli.sourceid = CAST(no.id AS uuid)
+LEFT JOIN kafka_facilities issufac ON CAST(no.referenceid AS uuid) = issufac.id
+LEFT JOIN kafka_geographic_zones zone_issufac ON zone_issufac.id = issufac.geographiczoneid 
+LEFT JOIN kafka_geographic_zones issudis ON zone_issufac.parentid = issudis.id
+LEFT JOIN kafka_facility_types issufacty ON issufac.typeid = issufacty.id 
+LEFT JOIN kafka_facility_operators issufacop ON issufac.operatedbyid = issufacop.id
+
+WHERE stclir.id  = 'e3fc3cf3-da18-44b0-a220-77c985202e06' -- Transfer IN
+      AND facty.id IN ('0fbe2b5c-bd2b-46af-ba7f-63c14add59c7', --Hospital
+                      '1096849c-84cd-4a94-8a7a-25d9f6e3911b') -- Health Centre
+      AND stcli.sourceid IS NOT NULL
+
+WITH DATA;
+ALTER MATERIALIZED VIEW redistribution OWNER TO postgres;
+
+DROP MATERIALIZED VIEW IF EXISTS stockouts;
+CREATE MATERIALIZED VIEW stockouts AS
+
+WITH lineitems AS (
+    SELECT 
+        dis.name AS district, 
+        fac.name AS facility, 
+        facty.name AS facility_type, 
+        prog.name AS program, 
+        ord.fullproductname AS product, 
+        stc.id AS stockcard_id,         -- kept for provenance, not used later
+        lots.lotcode AS batch_number,   -- ignored for balances/stockouts
+        stcli.occurreddate::date AS occurreddate, 
+        CASE
+            WHEN COALESCE(stclire.reasontype, 'CREDIT') = 'CREDIT' THEN stcli.quantity 
+            WHEN stclire.reasontype = 'DEBIT'  THEN -stcli.quantity 
+            ELSE 0 
+        END AS movement_qty 
+    FROM kafka_stock_card_line_items stcli 
+    LEFT JOIN kafka_stock_card_line_item_reasons stclire ON stcli.reasonid = stclire.id 
+    LEFT JOIN kafka_stock_cards stc              ON stcli.stockcardid = stc.id 
+    LEFT JOIN kafka_orderables ord               ON stc.orderableid = ord.id 
+    LEFT JOIN kafka_facilities fac               ON stc.facilityid = fac.id 
+    LEFT JOIN kafka_geographic_zones zone_fac    ON zone_fac.id = fac.geographiczoneid 
+    LEFT JOIN kafka_geographic_zones dis         ON zone_fac.parentid = dis.id 
+    LEFT JOIN kafka_facility_types facty         ON fac.typeid = facty.id 
+    LEFT JOIN kafka_program_orderables po        ON po.orderableid = ord.id 
+    LEFT JOIN kafka_programs prog                ON po.programid = prog.id 
+    LEFT JOIN kafka_lots lots                    ON stc.lotid = lots.id 
+),
+
+-- Collapse all lots/stockcards into a single daily movement per facility+product
+movements AS (
+    SELECT
+        district,
+        facility,
+        facility_type,
+        program,
+        product,
+        occurreddate,
+        SUM(movement_qty) AS movement_qty
+    FROM lineitems
+    GROUP BY
+        district, facility, facility_type, program, product, occurreddate
+),
+
+balances AS (
+    SELECT
+        district,
+        facility,
+        facility_type,
+        program,
+        product,
+        occurreddate,
+        SUM(movement_qty) OVER (
+            PARTITION BY facility, product
+            ORDER BY occurreddate
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) AS running_balance
+    FROM movements
+),
+
+stockouts AS (
+    SELECT 
+        b.district,
+        b.facility,
+        b.facility_type,
+        b.program,
+        b.product,
+        b.occurreddate AS date_became_os,
+        (
+            SELECT MIN(b2.occurreddate)
+            FROM balances b2
+            WHERE b2.facility = b.facility
+              AND b2.product  = b.product
+              AND b2.occurreddate > b.occurreddate
+              AND b2.running_balance > 0
+        ) AS date_received_post_os
+    FROM balances b
+    -- treat 0 or negative as out-of-stock; change to "= 0" if you only want exactly zero
+    WHERE b.running_balance <= 0
+)
+
+SELECT 
+    district, 
+    facility, 
+    facility_type, 
+    program, 
+    product, 
+    date_trunc('month', MIN(date_became_os)) AS "OS Month", 
+    MIN(date_became_os)                       AS date_became_os,
+    MAX(date_received_post_os)                AS date_received_post_os,
+    COALESCE(MAX(date_received_post_os), CURRENT_DATE) - MIN(date_became_os) AS os_days,
+    CASE  
+        WHEN MAX(date_received_post_os) IS NOT NULL THEN 'Yes'
+        ELSE 'No'
+    END AS was_service_interruption
+FROM stockouts
+GROUP BY district, facility, facility_type, program, product
+ORDER BY district, facility, product, date_became_os;
+
+WITH DATA;
+ALTER MATERIALIZED VIEW stockouts OWNER TO postgres;
+
+DROP MATERIALIZED VIEW IF EXISTS product_loss;
+CREATE MATERIALIZED VIEW product_loss AS
+
+SELECT 
+       fac.name "Facility",
+       dis.name "District",
+       facty.name "Facility Type",
+       facop.name "Ownership",
+       prog.name AS "Program",
+       ord.fullproductname "Product", 
+       lots.lotcode "Batch Number" ,
+       stcli.quantity "Quantity",
+       stclir.name AS "Reason", 
+       stcli.occurreddate 
+FROM kafka_stock_card_line_items stcli
+LEFT JOIN kafka_stock_card_line_item_reasons stclir ON stcli.reasonid = stclir.id
+LEFT JOIN kafka_stock_cards stc ON stcli.stockcardid = stc.id 
+LEFT JOIN kafka_orderables ord ON stc.orderableid = ord.id  
+LEFT JOIN kafka_lots lots ON stc.lotid = lots.id
+LEFT JOIN kafka_program_orderables po ON ord.id = po.orderableid 
+LEFT JOIN kafka_programs prog ON po.programid = prog.id
+LEFT JOIN kafka_facilities fac ON stc.facilityid = fac.id
+LEFT JOIN kafka_facility_types facty ON fac.typeid = facty.id 
+LEFT JOIN kafka_facility_operators facop ON fac.operatedbyid = facop.id
+LEFT JOIN kafka_geographic_zones zone_fac ON zone_fac.id = fac.geographiczoneid
+LEFT JOIN kafka_geographic_zones dis ON zone_fac.parentid = dis.id  -- dis for district
+WHERE stclir.id IN ('97e3140e-8432-4541-8347-d3a0d84954b4',-- Damaged
+                   'dca931d1-aaf9-47ba-9609-fb98fb421b4c', -- Expiry
+                   '58c07b26-6ca0-4d4f-9a7d-c5a8e126927d', -- Damage
+                   '5e420bc6-f0b7-49f3-96a4-227b20058e4a', -- Expire
+                   --Reason Unaccounted for
+                   --Reason Quality Standards
+                   '4e1e8588-0af6-4692-a98d-ee3685304574', -- Unusable
+                   'ddb09bf6-441b-4290-8828-c1ad5b208252') -- Degraded
+
+      AND facty.id IN ('0fbe2b5c-bd2b-46af-ba7f-63c14add59c7', --Hospital
+                      '1096849c-84cd-4a94-8a7a-25d9f6e3911b') -- Health Centre
+
+WITH DATA;
+ALTER MATERIALIZED VIEW product_loss OWNER TO postgres;
+
+DROP MATERIALIZED VIEW IF EXISTS emergency_orders;
+CREATE MATERIALIZED VIEW emergency_orders AS
+
+SELECT
+dis.name AS "District",
+geoz.name AS "Facility Name",
+fac.name AS "Service Point",
+fac.code AS facility_code,
+LEFT(fac.code, 5) AS facility_prefix,
+facty.name AS facility_type,
+facop.name AS facility_operator,
+prog.name AS program,
+period.name AS "Reporting Period",
+ord.fullproductname,
+reqli.requestedquantity as "Quantity Requested",
+req.status
+from  kafka_requisitions req
+LEFT JOIN kafka_facilities fac ON req.facilityid = fac.id
+LEFT JOIN kafka_facility_types facty ON fac.typeid = facty.id
+LEFT JOIN kafka_facility_operators facop ON fac.operatedbyid = facop.id
+LEFT JOIN kafka_programs prog ON req.programid = prog.id
+--LEFT JOIN kafka_program_orderables prog_o ON ord.id = prog_o.orderableid
+--LEFT JOIN kafka_orderable_display_categories odc ON odc.id = prog_o.orderabledisplaycategoryid
+LEFT JOIN kafka_geographic_zones geoz ON geoz.id = fac.geographiczoneid
+LEFT JOIN kafka_geographic_zones Zone_fac ON zone_fac.id = fac.geographiczoneid
+LEFT JOIN kafka_geographic_zones dis ON zone_fac.parentid = dis.id
+LEFT JOIN kafka_processing_periods period ON req.processingperiodid  = period.id
+LEFT JOIN kafka_requisition_line_items reqli ON req.id = reqli.requisitionid 
+LEFT JOIN kafka_orderables ord ON reqli.orderableid = ord.id
+WHERE req.emergency  = 'true' -- Pull Only Emergency kafka_requisitions 
+AND req.status in ('APPROVED');--, 'SUBMITTED','RELEASED', 'IN_APPROVAL');
+
+WITH DATA;
+ALTER MATERIALIZED VIEW emergency_orders OWNER TO postgres;
