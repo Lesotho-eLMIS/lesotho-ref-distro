@@ -17,7 +17,8 @@ $APP_DIR/superset-frontend/js_build.sh &&
 
 # wait for postgres
 #until PGPASSWORD=$POSTGRES_PASSWORD psql -h "db" -p "5432" -U "$POSTGRES_USER" -d "superset" -c '\q'; do
-until PGPASSWORD=$POSTGRES_PASSWORD psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER" -d "open_lmis_reporting" -c '\q'; do
+#until PGPASSWORD=$POSTGRES_PASSWORD psql -h "$POSTGRES_HOST" -p "$POSTGRES_PORT" -U "$POSTGRES_USER" -d "open_lmis_reporting" -c '\q'; do
+until PGPASSWORD=$POSTGRES_PASSWORD psql -h "10.1.0.6" -p "5432" -U "$POSTGRES_USER" -d "open_lmis_reporting" -c '\q'; do
   >&2 echo "Postgres is unavailable - sleeping"
   sleep 5
 done
