@@ -1,4 +1,4 @@
-FROM python:3.8.13
+FROM python:3.9.0
 
 # Superset version
 ARG SUPERSET_VERSION=1.5.2
@@ -7,7 +7,7 @@ ARG SUPERSET_VERSION=1.5.2
 ARG SUPERSET_PATCHUP_VERSION=v0.5.1
 
 # Default Superset files dir
-ARG APP_DIR=/usr/local/lib/python3.8/site-packages/superset
+ARG APP_DIR=/usr/local/lib/python3.9/site-packages/superset
 
 # Configure environment
 ENV GUNICORN_BIND=0.0.0.0:8088 \
