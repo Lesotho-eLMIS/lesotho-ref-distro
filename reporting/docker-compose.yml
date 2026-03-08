@@ -86,7 +86,7 @@ services:
     volumes:
         - db-config-volume:/docker-entrypoint-initdb.d
     ports:
-      - "${REPORTING_POSTGRES_PORT:-5432}:5432"
+      - "${REPORTING_POSTGRES_PORT:-5433}:5432"
     logging:
       driver: syslog
       options:
