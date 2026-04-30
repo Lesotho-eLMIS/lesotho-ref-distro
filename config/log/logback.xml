@@ -19,9 +19,9 @@
         <appender-ref ref="SYSLOG"/>
     </logger>
 
-    <logger name="org.openlmis.notification" level="DEBUG" additivity="false">
+    <!-- <logger name="org.openlmis.notification" level="DEBUG" additivity="false">
         <appender-ref ref="SYSLOG"/>
-    </logger>
+    </logger> -->
 
     <logger name="org.openlmis.referencedata" level="DEBUG" additivity="false">
         <appender-ref ref="SYSLOG"/>
@@ -36,6 +36,10 @@
     </logger>
 
     <logger name="org.openlmis.stockmanagement" level="DEBUG" additivity="false">
+        <appender-ref ref="SYSLOG"/>
+    </logger>
+
+    <logger name="org.openlmis.integration.dhis2" level="DEBUG" additivity="false">
         <appender-ref ref="SYSLOG"/>
     </logger>
 
