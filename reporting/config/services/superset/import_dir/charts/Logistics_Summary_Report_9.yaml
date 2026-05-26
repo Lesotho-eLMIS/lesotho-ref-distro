@@ -1,0 +1,73 @@
+slice_name: Logistics Summary Report
+viz_type: table
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_oxmpiqw9mv_6im8r4zrkjs
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  align_pn: false
+  all_columns: []
+  color_pn: true
+  database_name: main
+  datasource: 1__table
+  datasource_name: stock_status_and_consumption
+  granularity_sqla: processing_period_enddate
+  groupby:
+  - facility_name
+  - product_code
+  - full_product_name
+  - processing_period_name
+  - beginning_balance
+  - total_received_quantity
+  - adjusted_consumption
+  - total_losses_and_adjustments
+  - closing_balance
+  - order_quantity
+  import_time: 1674646974
+  include_search: true
+  include_time: false
+  metrics: []
+  order_by_cols: []
+  order_desc: true
+  page_length: 100
+  percent_metrics: []
+  remote_id: 8
+  row_limit: 500
+  schema: stock_status_and_consumption
+  slice_id: 30
+  table_filter: false
+  table_timestamp_format: '%Y-%m-%d %H:%M:%S'
+  time_grain_sqla: P1M
+  time_range: Last 10 years
+  timeseries_limit_metric:
+    aggregate: MAX
+    column:
+      column_name: processing_period_enddate
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: false
+      groupby: false
+      id: 48
+      is_dttm: true
+      optionName: _col_processing_period_enddate
+      python_date_format: null
+      type: DATE
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: true
+    hasCustomLabel: false
+    label: MAX(processing_period_enddate)
+    optionName: metric_snhnk2qk72_toerklflce
+    sqlExpression: null
+  url_params: {}
+  viz_type: table
+cache_timeout: null
+uuid: fa399eac-af7d-b55d-4315-3eca0517899e
+version: 1.0.0
+dataset_uuid: 6ddc0c42-9df1-9bfa-562b-8afc627b96b4

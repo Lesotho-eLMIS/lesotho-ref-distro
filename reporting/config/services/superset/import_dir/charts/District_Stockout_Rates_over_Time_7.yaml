@@ -1,0 +1,96 @@
+slice_name: District Stockout Rates over Time
+viz_type: line
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_5tzxmpwq1wm_crbgbdync1p
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  annotation_layers:
+  - annotationType: FORMULA
+    color: '#ff5a5f'
+    descriptionColumns: []
+    hideLine: false
+    intervalEndColumn: ''
+    name: Benchmark
+    opacity: ''
+    overrides:
+      since: null
+      until: null
+    show: true
+    showMarkers: false
+    sourceType: ''
+    style: longDashed
+    timeColumn: ''
+    titleColumn: ''
+    value: '.85'
+    width: 10
+  bottom_margin: auto
+  color_scheme: bnbColors
+  comparison_type: values
+  contribution: false
+  database_name: main
+  datasource: 1__table
+  datasource_name: stock_status_and_consumption
+  granularity_sqla: processing_period_enddate
+  groupby:
+  - district_name
+  import_time: 1674646974
+  left_margin: auto
+  line_interpolation: linear
+  metrics:
+  - aggregate: AVG
+    column:
+      column_name: combined_stockout
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: true
+      groupby: true
+      id: 8
+      is_dttm: false
+      optionName: _col_combined_stockout
+      python_date_format: null
+      type: INTEGER
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: true
+    hasCustomLabel: false
+    label: AVG(combined_stockout)
+    optionName: metric_xbuyamywqjh_vel69x0kb4l
+    sqlExpression: null
+  order_desc: true
+  remote_id: 16
+  rich_tooltip: true
+  rolling_type: None
+  row_limit: 10000
+  schema: stock_status_and_consumption
+  send_time_range: false
+  show_brush: 'no'
+  show_legend: true
+  show_markers: false
+  slice_id: 6
+  time_grain_sqla: P1M
+  time_range: No filter
+  timeseries_limit_metric: null
+  url_params: {}
+  viz_type: line
+  x_axis_format: smart_date
+  x_axis_label: ''
+  x_axis_showminmax: false
+  x_ticks_layout: auto
+  y_axis_bounds:
+  - null
+  - null
+  y_axis_format: .3s
+  y_axis_label: Stockout Rate
+  y_axis_showminmax: false
+  y_log_scale: false
+cache_timeout: null
+uuid: 196f2852-1afa-9bf8-7495-67af33fe0845
+version: 1.0.0
+dataset_uuid: 6ddc0c42-9df1-9bfa-562b-8afc627b96b4

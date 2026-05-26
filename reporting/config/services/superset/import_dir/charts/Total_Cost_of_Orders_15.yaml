@@ -1,0 +1,68 @@
+slice_name: Total Cost of Orders
+viz_type: table
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_r2ne44wfdz_f1sicwd007i
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  align_pn: false
+  all_columns: []
+  color_pn: true
+  database_name: main
+  datasource: 1__table
+  datasource_name: stock_status_and_consumption
+  granularity_sqla: processing_period_enddate
+  groupby:
+  - facility_code
+  - facility_name
+  - facility_type_name
+  - district_name
+  - total_cost
+  import_time: 1674646974
+  include_search: true
+  include_time: false
+  metrics: []
+  order_by_cols: []
+  order_desc: true
+  page_length: 100
+  percent_metrics: []
+  remote_id: 15
+  row_limit: 500
+  schema: stock_status_and_consumption
+  slice_id: 28
+  table_filter: false
+  table_timestamp_format: '%Y-%m-%d %H:%M:%S'
+  time_grain_sqla: P1M
+  time_range: Last 10 years
+  timeseries_limit_metric:
+    aggregate: MAX
+    column:
+      column_name: processing_period_enddate
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: false
+      groupby: false
+      id: 48
+      is_dttm: true
+      optionName: _col_processing_period_enddate
+      python_date_format: null
+      type: DATE
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: true
+    hasCustomLabel: false
+    label: MAX(processing_period_enddate)
+    optionName: metric_jxsrc32f8f_mvy80fgsqnf
+    sqlExpression: null
+  url_params: {}
+  viz_type: table
+cache_timeout: null
+uuid: 7cc02fad-92a7-a7c6-5f72-4834a349f63c
+version: 1.0.0
+dataset_uuid: 6ddc0c42-9df1-9bfa-562b-8afc627b96b4

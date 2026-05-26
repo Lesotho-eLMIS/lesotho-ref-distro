@@ -1,0 +1,148 @@
+dashboard_title: Stock Status
+description: null
+css: null
+slug: stock_status
+uuid: c0897e15-d835-1cc0-5be0-8d2105d119e3
+position:
+  CHART--LgINf3I5d:
+    children: []
+    id: CHART--LgINf3I5d
+    meta:
+      chartId: 6
+      height: 70
+      sliceName: Stock Filter
+      width: 4
+      uuid: bf5489a0-a7bb-e91a-32a7-79617111a031
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-A0s8aw1vz
+    type: CHART
+  CHART-IT9pkuKScA:
+    children: []
+    id: CHART-IT9pkuKScA
+    meta:
+      chartId: 12
+      height: 50
+      sliceName: Stock Status over Time
+      width: 8
+      uuid: 9013a905-e393-ca72-75d3-681546a8cda5
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-IFJ_tPxhWt
+    type: CHART
+  CHART-d2tBpcbV-b:
+    children: []
+    id: CHART-d2tBpcbV-b
+    meta:
+      chartId: 4
+      height: 50
+      sliceName: All-Time Reporting Timeliness
+      width: 4
+      uuid: e300c851-8c50-ddcb-ea69-1aca94b605e6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-IFJ_tPxhWt
+    type: CHART
+  CHART-m9aMYFLQL3:
+    children: []
+    id: CHART-m9aMYFLQL3
+    meta:
+      chartId: 11
+      height: 70
+      sliceName: Stock Status Table
+      width: 8
+      uuid: f854b01c-46a3-0f21-c155-bb2bc11f2ce5
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-A0s8aw1vz
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-A0s8aw1vz
+    - ROW-IFJ_tPxhWt
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Stock Status
+    type: HEADER
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-A0s8aw1vz:
+    children:
+    - CHART--LgINf3I5d
+    - CHART-m9aMYFLQL3
+    id: ROW-A0s8aw1vz
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-IFJ_tPxhWt:
+    children:
+    - CHART-d2tBpcbV-b
+    - CHART-IT9pkuKScA
+    id: ROW-IFJ_tPxhWt
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  default_filters: '{}'
+  expanded_slices: {}
+  filter_scopes:
+    '6':
+      district_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_type_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      full_product_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_period_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_schedule_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      program_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      region_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      stock_status:
+        immune: []
+        scope:
+        - ROOT_ID
+  import_time: 1674646974
+  remote_id: 1
+  timed_refresh_immune_slices: []
+version: 1.0.0

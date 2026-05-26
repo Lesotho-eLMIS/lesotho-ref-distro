@@ -1,0 +1,55 @@
+dashboard_title: Administrative
+description: null
+css: null
+slug: administrative
+uuid: c8a6023a-eadc-c45d-e9a2-1c67e535e048
+position:
+  CHART-EVVSjHFIHN:
+    children: []
+    id: CHART-EVVSjHFIHN
+    meta:
+      chartId: 1
+      height: 89
+      sliceName: Facility List
+      width: 12
+      uuid: 759cbb11-f97b-1edd-914b-1edbf3c47978
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-cQ0JwmC8b
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-cQ0JwmC8b
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Administrative
+    type: HEADER
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-cQ0JwmC8b:
+    children:
+    - CHART-EVVSjHFIHN
+    id: ROW-cQ0JwmC8b
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  default_filters: '{}'
+  expanded_slices: {}
+  import_time: 1674646974
+  remote_id: 7
+  timed_refresh_immune_slices: []
+version: 1.0.0

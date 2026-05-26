@@ -1,0 +1,68 @@
+slice_name: Reporting Rate and Timeliness
+viz_type: table
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_pqrrkt098v_g5dfv1gol8i
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  align_pn: false
+  all_columns: []
+  color_pn: true
+  database_name: main
+  datasource: 3__table
+  datasource_name: reporting_rate_and_timeliness
+  granularity_sqla: processing_period_enddate
+  groupby:
+  - region
+  - district
+  - name
+  - processing_period_name
+  - reporting_timeliness
+  import_time: 1674646974
+  include_search: true
+  include_time: false
+  metrics: []
+  order_by_cols: []
+  order_desc: true
+  page_length: 0
+  percent_metrics: []
+  remote_id: 5
+  row_limit: 10000
+  schema: reporting_rate_and_timeliness
+  slice_id: 24
+  table_filter: false
+  table_timestamp_format: '%Y-%m-%d %H:%M:%S'
+  time_grain_sqla: null
+  time_range: Last 10 years
+  timeseries_limit_metric:
+    aggregate: MAX
+    column:
+      column_name: processing_period_enddate
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: false
+      groupby: false
+      id: 115
+      is_dttm: true
+      optionName: _col_processing_period_enddate
+      python_date_format: null
+      type: DATE
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: true
+    hasCustomLabel: false
+    label: MAX(processing_period_enddate)
+    optionName: metric_15fyko0isfa_us7zq097ry
+    sqlExpression: null
+  url_params: {}
+  viz_type: table
+cache_timeout: null
+uuid: c3a3b478-6d1c-dc8d-f573-7c4e2e13acaa
+version: 1.0.0
+dataset_uuid: f4cc2d1c-9482-269e-31c4-8884e61172df

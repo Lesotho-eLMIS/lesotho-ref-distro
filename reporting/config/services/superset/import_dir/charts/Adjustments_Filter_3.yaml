@@ -1,0 +1,234 @@
+slice_name: Adjustments Filter
+viz_type: filter_box
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_duh66rp883m_o6niboguqbr
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  database_name: main
+  datasource: 2__table
+  datasource_name: adjustments
+  date_filter: false
+  filter_configs:
+  - asc: false
+    clearable: true
+    column: program_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: processing_period_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: stock_adjustment_reason
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: district_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: region_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: facility_type_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: facility_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: full_product_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: modified_date
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 88
+        is_dttm: true
+        optionName: _col_modified_date
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(modified_date)
+      optionName: metric_oll674aoocn_zxtp1a7s9
+      sqlExpression: null
+    multiple: true
+  granularity_sqla: modified_date
+  import_time: 1674646974
+  instant_filtering: true
+  remote_id: 11
+  schema: adjustments
+  show_druid_time_granularity: false
+  show_druid_time_origin: false
+  show_sqla_time_column: false
+  show_sqla_time_granularity: false
+  slice_id: 21
+  time_range: Last 5 years
+  url_params: {}
+  viz_type: filter_box
+cache_timeout: null
+uuid: 539fb203-c3cc-c4c9-2f67-8f95780bb40d
+version: 1.0.0
+dataset_uuid: faf6dbb6-7356-6b1c-f5c9-e578e5b2e6b8

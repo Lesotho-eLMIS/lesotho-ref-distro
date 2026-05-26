@@ -1,0 +1,65 @@
+slice_name: Emergency v. Regular Orders
+viz_type: pie
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_5j7kbdxitg3_7kl5w3gmqgy
+    fromFormData: true
+    operator: null
+    sqlExpression: req_status in ('RELEASED', 'RELEASED_WITHOUT_ORDER')
+    subject: null
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_scifnfkl61_sih62czxip
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  color_scheme: bnbColors
+  database_name: main
+  datasource: 1__table
+  datasource_name: stock_status_and_consumption
+  donut: true
+  granularity_sqla: processing_period_enddate
+  groupby:
+  - emergency_status
+  import_time: 1674646974
+  label_type: key_value
+  labels_outside: true
+  metric:
+    aggregate: COUNT_DISTINCT
+    column:
+      column_name: li_req_id
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: true
+      groupby: true
+      id: 45
+      is_dttm: false
+      optionName: _col_li_req_id
+      python_date_format: null
+      type: VARCHAR
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: false
+    hasCustomLabel: false
+    label: COUNT_DISTINCT(li_req_id)
+    optionName: metric_v3b4y8nflpl_jdsj21s35wc
+    sqlExpression: null
+  remote_id: 14
+  row_limit: 10000
+  schema: stock_status_and_consumption
+  show_labels: true
+  show_legend: true
+  slice_id: 27
+  time_range: Last 10 years
+  url_params: {}
+  viz_type: pie
+cache_timeout: null
+uuid: a45e28ff-45b3-40a6-25b4-6f4dcab8e4fc
+version: 1.0.0
+dataset_uuid: 6ddc0c42-9df1-9bfa-562b-8afc627b96b4

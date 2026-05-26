@@ -1,0 +1,209 @@
+slice_name: Reporting Rate Filter
+viz_type: filter_box
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_hyqlv8r3mr_0x5h2zmah809
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  database_name: main
+  datasource: 3__table
+  datasource_name: reporting_rate_and_timeliness
+  date_filter: false
+  filter_configs:
+  - asc: false
+    clearable: true
+    column: region
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 115
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_p2r4x1ybys_v8e6c02t7c
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: district
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 115
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_p2r4x1ybys_v8e6c02t7c
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 115
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_p2r4x1ybys_v8e6c02t7c
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: program_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 115
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_p2r4x1ybys_v8e6c02t7c
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: processing_period_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 115
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_p2r4x1ybys_v8e6c02t7c
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: processing_schedule_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 115
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_p2r4x1ybys_v8e6c02t7c
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: reporting_timeliness
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 115
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_p2r4x1ybys_v8e6c02t7c
+      sqlExpression: null
+    multiple: true
+  granularity_sqla: processing_period_enddate
+  import_time: 1674646974
+  instant_filtering: true
+  remote_id: 6
+  schema: reporting_rate_and_timeliness
+  show_druid_time_granularity: false
+  show_druid_time_origin: false
+  show_sqla_time_column: false
+  show_sqla_time_granularity: false
+  slice_id: 36
+  time_range: Last 100 years
+  url_params: {}
+  viz_type: filter_box
+cache_timeout: null
+uuid: cdb69bef-b998-7433-4c24-dd010160b480
+version: 1.0.0
+dataset_uuid: f4cc2d1c-9482-269e-31c4-8884e61172df

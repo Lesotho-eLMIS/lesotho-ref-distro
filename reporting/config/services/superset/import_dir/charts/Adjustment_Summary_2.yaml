@@ -1,0 +1,108 @@
+slice_name: Adjustment Summary
+viz_type: table
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_8vfkmnk53lw_pdhja0ye3h9
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  align_pn: false
+  all_columns: []
+  color_pn: true
+  database_name: main
+  datasource: 2__table
+  datasource_name: adjustments
+  granularity_sqla: modified_date
+  groupby:
+  - facility_type_name
+  - facility_name
+  - facility_operator_name
+  - stock_adjustment_reason
+  - processing_period_name
+  import_time: 1674646974
+  include_search: true
+  include_time: false
+  metrics:
+  - aggregate: SUM
+    column:
+      column_name: total_losses_and_adjustments
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: false
+      groupby: false
+      id: 75
+      is_dttm: false
+      optionName: _col_total_losses_and_adjustments
+      python_date_format: null
+      type: DOUBLE PRECISION
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: true
+    hasCustomLabel: true
+    label: Total Losses and Adjustments
+    optionName: metric_44er8bk1iis_r9zagd9tj9q
+    sqlExpression: null
+  - aggregate: SUM
+    column:
+      column_name: quantity
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: false
+      groupby: false
+      id: 74
+      is_dttm: false
+      optionName: _col_quantity
+      python_date_format: null
+      type: INTEGER
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: true
+    hasCustomLabel: true
+    label: Quantity
+    optionName: metric_mpsnen9h9ws_ce08g8ry84r
+    sqlExpression: null
+  order_by_cols: []
+  order_desc: true
+  page_length: 100
+  percent_metrics: []
+  remote_id: 12
+  row_limit: 500
+  schema: adjustments
+  slice_id: 22
+  table_filter: false
+  table_timestamp_format: '%Y-%m-%d %H:%M:%S'
+  time_grain_sqla: P1M
+  time_range: Last 5 years
+  timeseries_limit_metric:
+    aggregate: MAX
+    column:
+      column_name: modified_date
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: false
+      groupby: false
+      id: 88
+      is_dttm: true
+      optionName: _col_modified_date
+      python_date_format: null
+      type: DATE
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: true
+    hasCustomLabel: false
+    label: MAX(modified_date)
+    optionName: metric_00ov9jltb8imi_a29mt18oj8
+    sqlExpression: null
+  url_params: {}
+  viz_type: table
+cache_timeout: null
+uuid: 2e2ceaaa-5cde-ad40-7159-68659e2d7c14
+version: 1.0.0
+dataset_uuid: faf6dbb6-7356-6b1c-f5c9-e578e5b2e6b8

@@ -1,13 +1,13 @@
-FROM python:3.8.13
+FROM python:3.10-slim-bookworm
 
 # Superset version
-ARG SUPERSET_VERSION=1.5.2
+ARG SUPERSET_VERSION=6.0.0
 
 # Superset-patchup (Ketchup) version
-ARG SUPERSET_PATCHUP_VERSION=v0.5.1
+ARG SUPERSET_PATCHUP_VERSION=master
 
 # Default Superset files dir
-ARG APP_DIR=/usr/local/lib/python3.8/site-packages/superset
+ARG APP_DIR=/usr/local/lib/python3.10/site-packages/superset
 
 # Configure environment
 ENV GUNICORN_BIND=0.0.0.0:8088 \
@@ -17,7 +17,7 @@ ENV GUNICORN_BIND=0.0.0.0:8088 \
     GUNICORN_WORKERS=2 \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
-    PYTHONPATH=/etc/superset:/home/superset:$PYTHONPATH \
+    PYTHONPATH=/etc/superset:/home/superset \
     SUPERSET_REPO=apache/superset \
     SUPERSET_VERSION=${SUPERSET_VERSION} \
     SUPERSET_PATCHUP_VERSION=${SUPERSET_PATCHUP_VERSION} \
@@ -30,17 +30,23 @@ ENV GUNICORN_CMD_ARGS="--workers ${GUNICORN_WORKERS} -k ${WORKER_CLASS} --timeou
 
 COPY requirements.txt requirements.txt
 
-# Create superset user & install dependencies
+# Create superset user
 RUN useradd -U -m superset && \
     mkdir /etc/superset  && \
     mkdir ${SUPERSET_HOME} && \
     chown -R superset:superset /etc/superset && \
-    chown -R superset:superset ${SUPERSET_HOME} && \
-    apt-get update && \
-    apt-get install -y \
+    chown -R superset:superset ${SUPERSET_HOME}
+
+# Install OS dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
         rsync \
+        git \
+        wget \
+        unzip \
         build-essential \
         curl \
+        pkg-config \
         default-libmysqlclient-dev \
         freetds-bin \
         freetds-dev \
@@ -51,30 +57,31 @@ RUN useradd -U -m superset && \
         libsasl2-dev \
         libldap2-dev \
         libjpeg-dev \
-        libpng-dev && \
+        libpng-dev \
+        libgeos-dev && \
     apt-get clean && \
-    rm -r /var/lib/apt/lists/* && \
-    pip install --upgrade setuptools "pip<24.1" && \
+    rm -r /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --upgrade setuptools "pip<25" && \
     pip install --no-cache-dir \
-        gunicorn==20.1.0 \
-        gevent==22.10.2 \
-        git+${SUPERSET_PATCHUP_REPO} \
+        gunicorn==23.0.0 \
+        gevent==24.2.1 \
+        flask-mail==0.10.0 \
+        Flask-Migrate==4.0.7 \
+        alembic==1.13.1 \
+        redis==5.0.4 \
+        psycopg2-binary==2.9.9 \
+        pillow
+
+RUN pip install --no-cache-dir \
         apache-superset==${SUPERSET_VERSION} \
-        apache-superset[cors]==${SUPERSET_VERSION} \
-        flask-mail==0.9.1 \
-        flask-oauth==0.12 \
-        flask_oauthlib==0.9.5 \
-        Flask-Migrate==3.1.0 \
-        alembic==1.8.1 \
-        redis==4.5.5 && \
-    # Fix missing MarkupSafe 'soft_unicode' and ensure Flask compatibility
-    pip install -I --no-cache-dir \
-        MarkupSafe==2.0.1 \
-        cryptography==38.0.2 \
-        flask==1.1.4 \
-        werkzeug==1.0.1 \
-        psycopg2-binary==2.9.1 \
-        pillow  # Ensure PIL/Pillow is installed for screenshots
+        apache-superset[cors]==${SUPERSET_VERSION}
+
+RUN pip install --no-cache-dir \
+        git+${SUPERSET_PATCHUP_REPO} \
+    && sed -i 's/from superset import app/from flask import current_app as app/g' /usr/local/lib/python3.10/site-packages/superset_patchup/oauth.py \
+    && sed -i 's/self.get_session/self.session/g' /usr/local/lib/python3.10/site-packages/superset_patchup/oauth.py
 
 # Configure Filesystem
 RUN find ${APP_DIR} \! -type l -print0 | xargs -0 chown superset:superset
@@ -85,7 +92,7 @@ WORKDIR $APP_DIR
 
 # Node & npm
 ENV NVM_DIR=/usr/local/nvm
-ENV NODE_VERSION=v16.16.0
+ENV NODE_VERSION=v20.18.3
 
 RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
 RUN . $NVM_DIR/nvm.sh \

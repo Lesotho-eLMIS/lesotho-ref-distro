@@ -1,0 +1,140 @@
+dashboard_title: Reporting Rate and Timeliness
+description: null
+css: null
+slug: reporting_rate_and_timeliness
+uuid: 6f9d7e2e-c40c-54f1-7b5e-a29036da7224
+position:
+  CHART-3XaEn_AjRI:
+    children: []
+    id: CHART-3XaEn_AjRI
+    meta:
+      chartId: 5
+      height: 46
+      sliceName: Reporting Rate and Timeliness
+      width: 12
+      uuid: c3a3b478-6d1c-dc8d-f573-7c4e2e13acaa
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-2ZW3FYstKJ
+    type: CHART
+  CHART-PdVqnXV-Q4:
+    children: []
+    id: CHART-PdVqnXV-Q4
+    meta:
+      chartId: 17
+      height: 56
+      sliceName: Expected Facilities per Period
+      width: 4
+      uuid: b5b09916-d2da-8182-f3a9-8c63b4437f52
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-SvSDtqQSP
+    type: CHART
+  CHART-bDIq2bI0KP:
+    children: []
+    id: CHART-bDIq2bI0KP
+    meta:
+      chartId: 16
+      height: 56
+      sliceName: Reporting Rate Filter
+      width: 4
+      uuid: cdb69bef-b998-7433-4c24-dd010160b480
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-SvSDtqQSP
+    type: CHART
+  CHART-vQsFBEa-Sm:
+    children: []
+    id: CHART-vQsFBEa-Sm
+    meta:
+      chartId: 4
+      height: 56
+      sliceName: All-Time Reporting Timeliness
+      width: 4
+      uuid: e300c851-8c50-ddcb-ea69-1aca94b605e6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-SvSDtqQSP
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-SvSDtqQSP
+    - ROW-2ZW3FYstKJ
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Reporting Rate and Timeliness
+    type: HEADER
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-2ZW3FYstKJ:
+    children:
+    - CHART-3XaEn_AjRI
+    id: ROW-2ZW3FYstKJ
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-SvSDtqQSP:
+    children:
+    - CHART-bDIq2bI0KP
+    - CHART-vQsFBEa-Sm
+    - CHART-PdVqnXV-Q4
+    id: ROW-SvSDtqQSP
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  default_filters: '{}'
+  expanded_slices: {}
+  filter_scopes:
+    '16':
+      district:
+        immune: []
+        scope:
+        - ROOT_ID
+      name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_period_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_schedule_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      program_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      region:
+        immune: []
+        scope:
+        - ROOT_ID
+      reporting_timeliness:
+        immune: []
+        scope:
+        - ROOT_ID
+  import_time: 1674646974
+  remote_id: 2
+  timed_refresh_immune_slices: []
+version: 1.0.0

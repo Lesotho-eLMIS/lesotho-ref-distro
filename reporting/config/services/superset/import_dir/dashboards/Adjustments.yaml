@@ -1,0 +1,144 @@
+dashboard_title: Adjustments
+description: null
+css: null
+slug: adjustments
+uuid: a3251c6f-8cc2-1217-0b3e-10a4ae4a333d
+position:
+  CHART-7bRWG8LSHr:
+    children: []
+    id: CHART-7bRWG8LSHr
+    meta:
+      chartId: 2
+      height: 63
+      sliceName: Adjustment Summary
+      width: 8
+      uuid: 2e2ceaaa-5cde-ad40-7159-68659e2d7c14
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-lBkyeXpzg
+    type: CHART
+  CHART-nNgDezViDk:
+    children: []
+    id: CHART-nNgDezViDk
+    meta:
+      chartId: 5
+      height: 47
+      sliceName: Reporting Rate and Timeliness
+      width: 8
+      uuid: c3a3b478-6d1c-dc8d-f573-7c4e2e13acaa
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-08VACKTqo
+    type: CHART
+  CHART-pb3mGEd1Dr:
+    children: []
+    id: CHART-pb3mGEd1Dr
+    meta:
+      chartId: 3
+      height: 63
+      sliceName: Adjustments Filter
+      width: 4
+      uuid: 539fb203-c3cc-c4c9-2f67-8f95780bb40d
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-lBkyeXpzg
+    type: CHART
+  CHART-yAWXcngznO:
+    children: []
+    id: CHART-yAWXcngznO
+    meta:
+      chartId: 4
+      height: 47
+      sliceName: All-Time Reporting Timeliness
+      width: 4
+      uuid: e300c851-8c50-ddcb-ea69-1aca94b605e6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-08VACKTqo
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-lBkyeXpzg
+    - ROW-08VACKTqo
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Adjustments
+    type: HEADER
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-08VACKTqo:
+    children:
+    - CHART-yAWXcngznO
+    - CHART-nNgDezViDk
+    id: ROW-08VACKTqo
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-lBkyeXpzg:
+    children:
+    - CHART-pb3mGEd1Dr
+    - CHART-7bRWG8LSHr
+    id: ROW-lBkyeXpzg
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  default_filters: '{}'
+  expanded_slices: {}
+  filter_scopes:
+    '3':
+      district_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_type_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      full_product_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_period_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      program_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      region_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      stock_adjustment_reason:
+        immune: []
+        scope:
+        - ROOT_ID
+  import_time: 1674646974
+  remote_id: 4
+  timed_refresh_immune_slices: []
+version: 1.0.0

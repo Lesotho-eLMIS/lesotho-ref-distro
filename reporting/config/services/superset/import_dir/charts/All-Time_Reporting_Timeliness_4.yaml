@@ -1,0 +1,37 @@
+slice_name: All-Time Reporting Timeliness
+viz_type: pie
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_2vvao99u3we_ihcm3jj6p5
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  color_scheme: bnbColors
+  database_name: main
+  datasource: 3__table
+  datasource_name: reporting_rate_and_timeliness
+  donut: true
+  granularity_sqla: processing_period_enddate
+  groupby:
+  - reporting_timeliness
+  import_time: 1674646974
+  label_type: key_percent
+  labels_outside: true
+  metric: count
+  remote_id: 1
+  row_limit: 25
+  schema: reporting_rate_and_timeliness
+  show_labels: true
+  show_legend: true
+  slice_id: 23
+  time_range: Last 100 years
+  url_params: {}
+  viz_type: pie
+cache_timeout: null
+uuid: e300c851-8c50-ddcb-ea69-1aca94b605e6
+version: 1.0.0
+dataset_uuid: f4cc2d1c-9482-269e-31c4-8884e61172df

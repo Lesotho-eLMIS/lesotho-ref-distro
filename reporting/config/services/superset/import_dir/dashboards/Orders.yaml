@@ -1,0 +1,155 @@
+dashboard_title: Orders
+description: null
+css: null
+slug: orders
+uuid: 00a45f8c-fc6f-f6e5-1908-6ba99043a6fa
+position:
+  CHART-6fBsPuT_tQ:
+    children: []
+    id: CHART-6fBsPuT_tQ
+    meta:
+      chartId: 4
+      height: 57
+      sliceName: All-Time Reporting Timeliness
+      width: 4
+      uuid: e300c851-8c50-ddcb-ea69-1aca94b605e6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-nzZc2eWdn
+    type: CHART
+  CHART-W075If6ESD:
+    children: []
+    id: CHART-W075If6ESD
+    meta:
+      chartId: 5
+      height: 50
+      sliceName: Reporting Rate and Timeliness
+      width: 8
+      uuid: c3a3b478-6d1c-dc8d-f573-7c4e2e13acaa
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-xE_bWTgF8
+    type: CHART
+  CHART-Zra9PTDrsU:
+    children: []
+    id: CHART-Zra9PTDrsU
+    meta:
+      chartId: 15
+      height: 57
+      sliceName: Total Cost of Orders
+      width: 4
+      uuid: 7cc02fad-92a7-a7c6-5f72-4834a349f63c
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-nzZc2eWdn
+    type: CHART
+  CHART-xbPNz-aIrt:
+    children: []
+    id: CHART-xbPNz-aIrt
+    meta:
+      chartId: 14
+      height: 50
+      sliceName: Emergency v. Regular Orders
+      width: 4
+      uuid: a45e28ff-45b3-40a6-25b4-6f4dcab8e4fc
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-xE_bWTgF8
+    type: CHART
+  CHART-ydMvl6GVvT:
+    children: []
+    id: CHART-ydMvl6GVvT
+    meta:
+      chartId: 13
+      height: 57
+      sliceName: Orders Filter
+      width: 4
+      uuid: 6b9daf63-54d0-db9b-8193-416d943288d5
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-nzZc2eWdn
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-nzZc2eWdn
+    - ROW-xE_bWTgF8
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Orders
+    type: HEADER
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-nzZc2eWdn:
+    children:
+    - CHART-ydMvl6GVvT
+    - CHART-6fBsPuT_tQ
+    - CHART-Zra9PTDrsU
+    id: ROW-nzZc2eWdn
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-xE_bWTgF8:
+    children:
+    - CHART-xbPNz-aIrt
+    - CHART-W075If6ESD
+    id: ROW-xE_bWTgF8
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  default_filters: '{}'
+  expanded_slices: {}
+  filter_scopes:
+    '13':
+      district_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_type_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      full_product_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_period_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_schedule_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      program_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      region_name:
+        immune: []
+        scope:
+        - ROOT_ID
+  import_time: 1674646974
+  remote_id: 5
+  timed_refresh_immune_slices: []
+version: 1.0.0

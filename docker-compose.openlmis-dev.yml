@@ -1,36 +1,4 @@
-# version: "3.8"
-
-# services:
-#   web:
-#     image: "${DHIS2_IMAGE:-dhis2/core-dev:local}"
-#     ports:
-#       - "127.0.0.1:8080:8080" # DHIS2
-#       - "127.0.0.1:8081:8081" # Debugger: connect using commandline flag -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081
-#       - "127.0.0.1:9010:9010" # JMX port (for example for VisualVM)
-#     volumes:
-#       - ./logo/mohswlogo.png:mohswlogo.png
-#       - ./docker/dhis.conf:/opt/dhis2/dhis.conf:ro
-#       - ./docker/log4j2.xml:/opt/dhis2/log4j2.xml:ro
-#     environment:
-#       JAVA_OPTS:
-#         "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081 \
-#         -Dlog4j2.configurationFile=/opt/dhis2/log4j2.xml
-#         -Dcom.sun.management.jmxremote \
-#         -Dcom.sun.management.jmxremote.port=9010 \
-#         -Dcom.sun.management.jmxremote.local.only=false \
-#         -Dcom.sun.management.jmxremote.authenticate=false \
-#         -Dcom.sun.management.jmxremote.ssl=false"
-#       POSTGRES_USER: dhis # Replace with your existing DB user
-#       POSTGRES_DB: dhsi # Replace with your existing DB name
-#       POSTGRES_PASSWORD: 0001 # Replace with your existing DB password
-#       POSTGRES_HOST: 192.168.8.147 # Replace with your existing DB host (e.g., IP or hostname)
-#       POSTGRES_PORT: 5432 # Replace with your existing DB port (default is 5432)
-
-#     # depends_on:
-#     # You can remove the db service dependency here if you don't need it
-#     # db:
-#     #   condition: service_healthy
-version: "3.3"
+# version: "3.3"
 services:
   consul:
     command: -server -bootstrap
@@ -42,18 +10,17 @@ services:
       - "53"
 
   nginx:
-    #image: openlmis/nginx:${OL_NGINX_VERSION}
-    image: elmislesotho/nginx:${OL_NGINX_VERSION}
+    image: elmislesotho/nginx:1.0.0
+    # image: elmislesotho/nginx:${OL_NGINX_VERSION}
     ports:
       - "${OL_HTTP_PORT:-80}:80"
+      #- "9988:80"
     env_file: settings.env
+    # network_mode: "host"
     environment:
-<<<<<<< HEAD
-      NGINX_LOG_DIR: '/var/log/nginx/log'
-      NGINX_TIMEOUT: '300s'
-=======
       NGINX_LOG_DIR: "/var/log/nginx/log"
->>>>>>> 5eb384f (local config)
+      NGINX_TIMEOUT: "300s"
+      #CLIENT_MAX_BODY_SIZE: '10m'
     volumes:
       - "nginx-log:/var/log/nginx/log"
       - "consul-template-log:/var/log/consul-template"
@@ -66,25 +33,13 @@ services:
 
   requisition:
     image: elmislesotho/requisition:${OL_REQUISITION_VERSION}
+    # image: openlmis/requisition:8.5.0
     env_file: settings.env
+
     environment:
-<<<<<<< HEAD
       #JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
       JAVA_OPTS: >
-        -server
-        -Xms1024m
-        -Xmx3072m
-        -XX:+UseG1GC
-        -XX:MetaspaceSize=128m
-        -XX:MaxMetaspaceSize=256m
-        -Xss512k
-        -XX:+PrintGCDetails
-        -XX:+PrintGCDateStamps
-        -Xloggc:/var/log/requisition/gc.log
-        -Dlogging.config=/config/log/logback.xml
-=======
-      JAVA_OPTS: "-server -Xmx1024m -Dlogging.config=/config/log/logback.xml"
->>>>>>> 5eb384f (local config)
+        -server -Xms1024m -Xmx3072m -XX:+UseG1GC -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m -Xss512k -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/var/log/requisition/gc.log -Dlogging.config=/config/log/logback.xml
     volumes:
       - "service-config:/config"
     depends_on: [log]
@@ -94,23 +49,9 @@ services:
     image: elmislesotho/referencedata:${OL_REFERENCEDATA_VERSION}
     env_file: settings.env
     environment:
-<<<<<<< HEAD
       #JAVA_OPTS: '-server -Xmx1024m -Dlogging.config=/config/log/logback.xml'
       JAVA_OPTS: >
-        -server
-        -Xms1024m
-        -Xmx3072m
-        -XX:+UseG1GC
-        -XX:MetaspaceSize=128m
-        -XX:MaxMetaspaceSize=256m
-        -Xss512k
-        -XX:+PrintGCDetails
-        -XX:+PrintGCDateStamps
-        -Xloggc:/var/log/referencedata/gc.log
-        -Dlogging.config=/config/log/logback.xml
-=======
-      JAVA_OPTS: "-server -Xmx1024m -Dlogging.config=/config/log/logback.xml"
->>>>>>> 5eb384f (local config)
+        -server -Xms1024m -Xmx3072m -XX:+UseG1GC -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m -Xss512k -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/var/log/referencedata/gc.log -Dlogging.config=/config/log/logback.xml
     volumes:
       - "service-config:/config"
     depends_on: [log]
@@ -127,7 +68,8 @@ services:
     command: ["/wait-for-postgres.sh", "/run.sh"]
 
   notification:
-    image: elmislesotho/notification:${OL_NOTIFICATION_VERSION}
+    image: custom-openlmis-notification:latest
+    # image: elmislesotho/notification:${OL_NOTIFICATION_VERSION}
     env_file: settings.env
     environment:
       JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
@@ -160,72 +102,16 @@ services:
     image: elmislesotho/stockmanagement:${OL_STOCKMANAGEMENT_VERSION}
     env_file: settings.env
     environment:
-<<<<<<< HEAD
       #JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
       JAVA_OPTS: >
-        -server
-        -Xms1024m
-        -Xmx3072m
-        -XX:+UseG1GC
-        -XX:MetaspaceSize=128m
-        -XX:MaxMetaspaceSize=256m
-        -Xss512k
-        -XX:+PrintGCDetails
-        -XX:+PrintGCDateStamps
-        -Xloggc:/var/log/stockmanagement/gc.log
-        -Dlogging.config=/config/log/logback.xml
-=======
-      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
->>>>>>> 5eb384f (local config)
+        -server -Xms1024m -Xmx3072m -XX:+UseG1GC -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=256m -Xss512k -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:/var/log/stockmanagement/gc.log -Dlogging.config=/config/log/logback.xml
     volumes:
       - "service-config:/config"
     depends_on: [log]
     command: ["/wait-for-postgres.sh", "/run.sh"]
-
-<<<<<<< HEAD
-  # prepacking:
-  #   image: elmislesotho/prepacking:${OL_PREPACKING_VERSION}
-  #   env_file: settings.env
-  #   environment:
-  #     JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
-  #   volumes:
-  #     - 'service-config:/config'
-  #   depends_on: [log, db]
-  #   command: ["/wait-for-postgres.sh", "/run.sh"]
-
-  # dispensing:
-  #   image: elmislesotho/dispensing:${OL_DISPENSING_VERSION}
-  #   env_file: settings.env
-  #   environment:
-  #     JAVA_OPTS: '-server -Xmx512m -Dlogging.config=/config/log/logback.xml'
-  #   volumes:
-  #     - 'service-config:/config'
-  #   depends_on: [log, db]
-  #   command: ["/wait-for-postgres.sh", "/run.sh"]
-=======
-  prepacking:
-    image: elmislesotho/prepacking:${OL_PREPACKING_VERSION}
-    env_file: settings.env
-    environment:
-      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
-    volumes:
-      - "service-config:/config"
-    depends_on: [log]
-    command: ["/wait-for-postgres.sh", "/run.sh"]
-
-    # dispensing:
-    #   image: elmislesotho/dispensing:${OL_DISPENSING_VERSION}
-    #   env_file: settings.env
-    #   environment:
-    #     JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
-    #   volumes:
-    #     - "service-config:/config"
-    #   depends_on: [log]
-    #   command: ["/wait-for-postgres.sh", "/run.sh"]
->>>>>>> 5eb384f (local config)
 
   report:
-    image: openlmis/report:${OL_REPORT_VERSION}
+    image: elmislesotho/report:${OL_REPORT_VERSION}
     env_file: settings.env
     environment:
       JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
@@ -274,6 +160,15 @@ services:
   #       aliases:
   #         - olmis-db
   #   depends_on: [consul]
+  prepacking:
+    image: elmislesotho/prepacking:${OL_PREPACKING_VERSION}
+    env_file: settings.env
+    environment:
+      JAVA_OPTS: "-server -Xmx512m -Dlogging.config=/config/log/logback.xml"
+    volumes:
+      - "service-config:/config"
+    depends_on: [log]
+    command: ["/wait-for-postgres.sh", "/run.sh"]
 
   log:
     image: openlmis/rsyslog:${OL_RSYSLOG_VERSION}
@@ -290,7 +185,7 @@ services:
       - service-config:/config
 
   ftp:
-    image: hauptmedia/proftpd
+    image: driesva/proftpd
     ports:
       - "${OL_FTP_PORT_21:-21}:21"
       - "${OL_FTP_PORT_20:-20}:20"

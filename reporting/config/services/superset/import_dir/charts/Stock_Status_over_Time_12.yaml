@@ -1,0 +1,80 @@
+slice_name: Stock Status over Time
+viz_type: bar
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_pr44cna4lg_eixx1xqyf6a
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  annotation_layers: []
+  bar_stacked: true
+  bottom_margin: auto
+  color_scheme: bnbColors
+  comparison_type: values
+  contribution: false
+  database_name: main
+  datasource: 1__table
+  datasource_name: stock_status_and_consumption
+  granularity_sqla: processing_period_enddate
+  groupby:
+  - stock_status
+  import_time: 1674646974
+  left_margin: auto
+  line_interpolation: linear
+  metrics:
+  - aggregate: COUNT_DISTINCT
+    column:
+      column_name: facility_id
+      database_expression: null
+      description: null
+      expression: ''
+      filterable: true
+      groupby: true
+      id: 33
+      is_dttm: false
+      optionName: _col_facility_id
+      python_date_format: null
+      type: VARCHAR
+      verbose_name: null
+    expressionType: SIMPLE
+    fromFormData: false
+    hasCustomLabel: false
+    label: COUNT_DISTINCT(facility_id)
+    optionName: metric_phjempvrjz_mj5yuuzqiu
+    sqlExpression: null
+  order_desc: true
+  reduce_x_ticks: false
+  remote_id: 3
+  rich_tooltip: true
+  rolling_type: None
+  row_limit: 10000
+  schema: stock_status_and_consumption
+  show_bar_value: false
+  show_brush: auto
+  show_controls: false
+  show_legend: true
+  slice_id: 5
+  time_grain_sqla: P1M
+  time_range: No filter
+  timeseries_limit_metric: null
+  url_params: {}
+  viz_type: bar
+  x_axis_format: smart_date
+  x_axis_label: ''
+  x_axis_showminmax: false
+  x_ticks_layout: auto
+  y_axis_bounds:
+  - null
+  - null
+  y_axis_format: .3s
+  y_axis_label: Count of Facilities
+  y_axis_showminmax: false
+  y_log_scale: false
+cache_timeout: null
+uuid: 9013a905-e393-ca72-75d3-681546a8cda5
+version: 1.0.0
+dataset_uuid: 6ddc0c42-9df1-9bfa-562b-8afc627b96b4

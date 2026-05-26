@@ -1,0 +1,17 @@
+database_name: main
+sqlalchemy_uri: postgresql+psycopg2://postgres:changeme@db:5432/open_lmis_reporting
+cache_timeout: null
+expose_in_sqllab: true
+allow_run_async: false
+allow_ctas: false
+allow_cvas: false
+allow_file_upload: true
+extra:
+  allows_virtual_table_explore: true
+  metadata_params: {}
+  engine_params: {}
+  metadata_cache_timeout: {}
+  cost_estimate_enabled: false
+  schemas_allowed_for_file_upload: []
+uuid: 54b1ba9a-5c64-4b45-1a64-41ae080aa9dc
+version: 1.0.0

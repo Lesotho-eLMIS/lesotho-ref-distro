@@ -1,0 +1,40 @@
+slice_name: Facility List
+viz_type: table
+params:
+  adhoc_filters: []
+  align_pn: false
+  all_columns: []
+  color_pn: true
+  database_name: main
+  datasource: 65__table
+  datasource_name: facilities
+  granularity_sqla: null
+  groupby:
+  - code
+  - name
+  - type
+  - district
+  - operator_name
+  import_time: 1674646974
+  include_search: true
+  include_time: false
+  metrics: []
+  order_by_cols: []
+  order_desc: true
+  page_length: 100
+  percent_metrics: []
+  remote_id: 17
+  row_limit: 10000
+  schema: facilities
+  slice_id: 17
+  table_filter: false
+  table_timestamp_format: '%Y-%m-%d %H:%M:%S'
+  time_grain_sqla: null
+  time_range: No filter
+  timeseries_limit_metric: null
+  url_params: {}
+  viz_type: table
+cache_timeout: null
+uuid: 759cbb11-f97b-1edd-914b-1edbf3c47978
+version: 1.0.0
+dataset_uuid: d9dfc4a7-8055-7fd0-bc6c-1a11f923a42c

@@ -1,0 +1,259 @@
+slice_name: Stock Filter
+viz_type: filter_box
+params:
+  adhoc_filters:
+  - clause: WHERE
+    comparator: null
+    expressionType: SQL
+    filterOptionName: filter_28q84ybogif_baa55jgcghi
+    fromFormData: true
+    operator: null
+    sqlExpression: username = '{{ current_username() }}'
+    subject: null
+  database_name: main
+  datasource: 1__table
+  datasource_name: stock_status_and_consumption
+  date_filter: false
+  filter_configs:
+  - asc: false
+    clearable: true
+    column: program_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: region_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: district_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: processing_period_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: processing_schedule_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: facility_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: facility_type_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: full_product_name
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  - asc: false
+    clearable: true
+    column: stock_status
+    metric:
+      aggregate: MAX
+      column:
+        column_name: processing_period_enddate
+        database_expression: null
+        description: null
+        expression: ''
+        filterable: false
+        groupby: false
+        id: 48
+        is_dttm: true
+        optionName: _col_processing_period_enddate
+        python_date_format: null
+        type: DATE
+        verbose_name: null
+      expressionType: SIMPLE
+      fromFormData: true
+      hasCustomLabel: false
+      label: MAX(processing_period_enddate)
+      optionName: metric_ihqxettg21k_jm402meto1d
+      sqlExpression: null
+    multiple: true
+  granularity_sqla: processing_period_enddate
+  import_time: 1674646974
+  instant_filtering: true
+  remote_id: 2
+  schema: stock_status_and_consumption
+  show_druid_time_granularity: false
+  show_druid_time_origin: false
+  show_sqla_time_column: false
+  show_sqla_time_granularity: false
+  slice_id: 5
+  time_range: No filter
+  url_params: {}
+  viz_type: filter_box
+cache_timeout: null
+uuid: bf5489a0-a7bb-e91a-32a7-79617111a031
+version: 1.0.0
+dataset_uuid: 6ddc0c42-9df1-9bfa-562b-8afc627b96b4

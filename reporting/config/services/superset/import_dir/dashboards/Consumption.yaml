@@ -1,0 +1,176 @@
+dashboard_title: Consumption
+description: null
+css: null
+slug: consumption
+uuid: f9a11f16-910a-9aec-af22-bd0c830e47a8
+position:
+  CHART-TreiyZs86A:
+    children: []
+    id: CHART-TreiyZs86A
+    meta:
+      chartId: 10
+      height: 50
+      sliceName: Consumption Report
+      width: 5
+      uuid: f918dfd0-0a31-3058-3fca-db9e50239611
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-6HHg95Bz9
+    type: CHART
+  CHART-k3Q8bZoivs:
+    children: []
+    id: CHART-k3Q8bZoivs
+    meta:
+      chartId: 8
+      height: 50
+      sliceName: Total Adjusted Consumption per Facility
+      width: 7
+      uuid: 51840a84-d124-c123-592b-bd699787d7f6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-6HHg95Bz9
+    type: CHART
+  CHART-sLPzUKWaFt:
+    children: []
+    id: CHART-sLPzUKWaFt
+    meta:
+      chartId: 9
+      height: 69
+      sliceName: Logistics Summary Report
+      width: 8
+      uuid: fa399eac-af7d-b55d-4315-3eca0517899e
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-00JoR3Ly_
+    type: CHART
+  CHART-vWziXTcZlz:
+    children: []
+    id: CHART-vWziXTcZlz
+    meta:
+      chartId: 6
+      height: 69
+      sliceName: Stock Filter
+      width: 4
+      uuid: bf5489a0-a7bb-e91a-32a7-79617111a031
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-00JoR3Ly_
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-00JoR3Ly_
+    - ROW-6jFB8wGrT7
+    - ROW-6HHg95Bz9
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Consumption
+    type: HEADER
+  MARKDOWN-hbo_igRlnf:
+    children: []
+    id: MARKDOWN-hbo_igRlnf
+    meta:
+      code: 'Use the filters in the top left to select a specific product, facility,
+        or reporting period.
+
+
+        Note that with the line graph below, you should select a specific product,
+        otherwise it shows the aggregate of all products.'
+      height: 13
+      width: 12
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-6jFB8wGrT7
+    type: MARKDOWN
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-00JoR3Ly_:
+    children:
+    - CHART-vWziXTcZlz
+    - CHART-sLPzUKWaFt
+    id: ROW-00JoR3Ly_
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-6HHg95Bz9:
+    children:
+    - CHART-TreiyZs86A
+    - CHART-k3Q8bZoivs
+    id: ROW-6HHg95Bz9
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-6jFB8wGrT7:
+    children:
+    - MARKDOWN-hbo_igRlnf
+    id: ROW-6jFB8wGrT7
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  default_filters: '{}'
+  expanded_slices: {}
+  filter_scopes:
+    '6':
+      district_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_type_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      full_product_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_period_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_schedule_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      program_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      region_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      stock_status:
+        immune: []
+        scope:
+        - ROOT_ID
+  import_time: 1674646974
+  remote_id: 3
+  timed_refresh_immune_slices: []
+version: 1.0.0

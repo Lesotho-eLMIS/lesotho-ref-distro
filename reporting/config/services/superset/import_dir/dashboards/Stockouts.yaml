@@ -1,0 +1,177 @@
+dashboard_title: Stockouts
+description: null
+css: null
+slug: stockouts
+uuid: ea017b50-6ba9-d507-ce45-5e00f15c39c1
+position:
+  CHART-3a3t50Losu:
+    children: []
+    id: CHART-3a3t50Losu
+    meta:
+      chartId: 4
+      height: 25
+      sliceName: All-Time Reporting Timeliness
+      width: 4
+      uuid: e300c851-8c50-ddcb-ea69-1aca94b605e6
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-ZNBZ4wekv
+    type: CHART
+  CHART-7qtihGmvhy:
+    children: []
+    id: CHART-7qtihGmvhy
+    meta:
+      chartId: 6
+      height: 68
+      sliceName: Stock Filter
+      width: 4
+      uuid: bf5489a0-a7bb-e91a-32a7-79617111a031
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-T9IK1wSrS
+    type: CHART
+  CHART-ZxCCxr1LkD:
+    children: []
+    id: CHART-ZxCCxr1LkD
+    meta:
+      chartId: 7
+      height: 36
+      sliceName: District Stockout Rates over Time
+      width: 12
+      uuid: 196f2852-1afa-9bf8-7495-67af33fe0845
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-ZPQ_lw1-k
+    type: CHART
+  CHART-fpY4uE-ZN5:
+    children: []
+    id: CHART-fpY4uE-ZN5
+    meta:
+      chartId: 5
+      height: 68
+      sliceName: Reporting Rate and Timeliness
+      width: 8
+      uuid: c3a3b478-6d1c-dc8d-f573-7c4e2e13acaa
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-T9IK1wSrS
+    type: CHART
+  DASHBOARD_VERSION_KEY: v2
+  GRID_ID:
+    children:
+    - ROW-T9IK1wSrS
+    - ROW-ZNBZ4wekv
+    - ROW-ZPQ_lw1-k
+    id: GRID_ID
+    parents:
+    - ROOT_ID
+    type: GRID
+  HEADER_ID:
+    id: HEADER_ID
+    meta:
+      text: Stockouts
+    type: HEADER
+  MARKDOWN-veBvEY4Ft_:
+    children: []
+    id: MARKDOWN-veBvEY4Ft_
+    meta:
+      code: 'Use a filter to the top left to select a particular product code to see
+        the stockout rate for that product. Note that this approach is best displayed
+        with district-level lines, but we only have one district in the data and so
+        it uses facility-level lines for this example.
+
+
+        Currently, this dashboard shows the average stockout rate for all commodities.'
+      height: 25
+      width: 8
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    - ROW-ZNBZ4wekv
+    type: MARKDOWN
+  ROOT_ID:
+    children:
+    - GRID_ID
+    id: ROOT_ID
+    type: ROOT
+  ROW-T9IK1wSrS:
+    children:
+    - CHART-7qtihGmvhy
+    - CHART-fpY4uE-ZN5
+    id: ROW-T9IK1wSrS
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-ZNBZ4wekv:
+    children:
+    - MARKDOWN-veBvEY4Ft_
+    - CHART-3a3t50Losu
+    id: ROW-ZNBZ4wekv
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+  ROW-ZPQ_lw1-k:
+    children:
+    - CHART-ZxCCxr1LkD
+    id: ROW-ZPQ_lw1-k
+    meta:
+      background: BACKGROUND_TRANSPARENT
+    parents:
+    - ROOT_ID
+    - GRID_ID
+    type: ROW
+metadata:
+  default_filters: '{}'
+  expanded_slices: {}
+  filter_scopes:
+    '6':
+      district_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      facility_type_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      full_product_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_period_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      processing_schedule_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      program_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      region_name:
+        immune: []
+        scope:
+        - ROOT_ID
+      stock_status:
+        immune: []
+        scope:
+        - ROOT_ID
+  import_time: 1674646974
+  remote_id: 6
+  timed_refresh_immune_slices: []
+version: 1.0.0
